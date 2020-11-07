@@ -1,81 +1,83 @@
 import 'package:flutter/material.dart';
+import './questionario.dart';
+import './resultado.dart';
 
-main(){
-  runApp(new PerguntaApp());
-}
+main() => runApp(PerguntaApp());
 
-class PerguntaApp extends StatelessWidget {
-  Widget build(BuildContext context){
+class _PerguntaAppState extends State<PerguntaApp> {
+  var _perguntaSelecionada = 0;
+  var _pontuacaoTotal = 0;
+  final _perguntas = const [
+    {
+      'texto': 'Qual é a sua cor favorita?',
+      'respostas': [
+        {'texto': 'Preto', 'pontuacao': 10},
+        {'texto': 'Vermelho', 'pontuacao': 5},
+        {'texto': 'Verde', 'pontuacao': 3},
+        {'texto': 'Branco', 'pontuacao': 1},
+      ],
+    },
+    {
+      'texto': 'Qual é o seu animal favorito?',
+      'respostas': [
+        {'texto': 'Coelho', 'pontuacao': 10},
+        {'texto': 'Cobra', 'pontuacao': 5},
+        {'texto': 'Elefante', 'pontuacao': 3},
+        {'texto': 'Leão', 'pontuacao': 1},
+      ],
+    },
+    {
+      'texto': 'Qual é o seu instrutor favorito?',
+      'respostas': [
+        {'texto': 'Leo', 'pontuacao': 10},
+        {'texto': 'Maria', 'pontuacao': 5},
+        {'texto': 'João', 'pontuacao': 3},
+        {'texto': 'Pedro', 'pontuacao': 1},
+      ],
+    }
+  ];
+
+  void _responder(int pontuacao) {
+    if (temPerguntaSelecionada) {
+      setState(() {
+        _perguntaSelecionada++;
+        _pontuacaoTotal += pontuacao;
+      });
+    }
+  }
+
+  void _reiniciarQuestionario() {
+    setState(() {
+      _perguntaSelecionada = 0;
+      _pontuacaoTotal = 0;
+    });
+  }
+
+  bool get temPerguntaSelecionada {
+    return _perguntaSelecionada < _perguntas.length;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
-      home: Text('HelloWorld')
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Perguntas'),
+        ),
+        body: temPerguntaSelecionada
+            ? Questionario(
+                perguntas: _perguntas,
+                perguntaSelecionada: _perguntaSelecionada,
+                quantoResponder: _responder,
+              )
+            : Resultado(_pontuacaoTotal, _reiniciarQuestionario),
+      ),
     );
   }
 }
 
-// import 'package:flutter/material.dart';
-
-// void main() {
-//   runApp(MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//         visualDensity: VisualDensity.adaptivePlatformDensity,
-//       ),
-//       home: MyHomePage(title: 'Flutter Demo Home Page'),
-//     );
-//   }
-// }
-
-// class MyHomePage extends StatefulWidget {
-//   MyHomePage({Key key, this.title}) : super(key: key);
-
-//   final String title;
-
-//   @override
-//   _MyHomePageState createState() => _MyHomePageState();
-// }
-
-// class _MyHomePageState extends State<MyHomePage> {
-//   int _counter = 0;
-
-//   void _incrementCounter() {
-//     setState(() {
-//       _counter++;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(widget.title),
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             Text(
-//               'You have pushed the button this many times:',
-//             ),
-//             Text(
-//               '$_counter',
-//               style: Theme.of(context).textTheme.headline4,
-//             ),
-//           ],
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: _incrementCounter,
-//         tooltip: 'Increment',
-//         child: Icon(Icons.add),
-//       ), // This trailing comma makes auto-formatting nicer for build methods.
-//     );
-//   }
-// }
+class PerguntaApp extends StatefulWidget {
+  _PerguntaAppState createState() {
+    return _PerguntaAppState();
+  }
+}

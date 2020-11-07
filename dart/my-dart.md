@@ -251,11 +251,13 @@ Sinxtax
 ternary_result = bolol_operation ? if_true : if_false
 ```
 
-
-
 ```dart
 String estaChovendo = reposta == true ? 'estaChovendo' : 'naoEstaChovendo'
 ```
+
+### Operador Spread `...`
+
+Como em JS é um operador que permite espalhar elementos dentro de uma lista. Assim você consegue adicionar os elementos de uma lista  dentro de outra lista de uma forma mais fácil.
 
 ## String
 
@@ -486,7 +488,7 @@ Classe deve ter nome Maiúsculo em CamelCase
 
 Defininido uma classe num arquivo
 
-### atributo privado = getter e setter
+### atributo privado e getter e setter
 
 Nâo há um classificar de visibilidade nem para métodos e nem para atributo.
 
@@ -555,6 +557,49 @@ main() {
 }
 ```
 
+### Herança
+
+```dart
+class Animal {
+  String cor;
+  void dormir(){
+    print("Dormir");
+  } 
+}
+
+class Cao extends Animal { 
+  String corOrelha;
+  void latir(){
+    print("Latir");
+  }
+}
+
+class Passaro extends Animal {
+  String corBico;
+  void voar(){
+    print("Voar");
+  }
+}
+
+void main() {
+  
+  Cao cao = Cao();
+  Passaro passaro = Passaro();
+  
+  cao.cor = "Branco";
+  cao.corOrelha = "Preto";
+  print( "Cor do cão: " + cao.cor );
+  print( "Cor da orelha: " + cao.corOrelha );
+  cao.latir();
+  
+  passaro.cor = "Marrom";
+  print( passaro.cor );
+  passaro.voar();
+  
+  
+}
+```
+
 
 
 ## Generics
@@ -581,6 +626,253 @@ main() {
 }
 ```
 
+### Sobrepor métodos: `@override`
+
+**Não vale com o método construtor**
+
+```dart
+class Animal {
+  
+  String cor;
+  
+  Animal(this.cor);
+  
+  void dormir(){
+    print("Dormir");
+  } 
+  
+  void correr(){
+    print("Correr ");
+    print("como");
+    print("um");
+  }
+  
+}
+
+class Cao extends Animal { 
+  String corOrelha;
+  
+  Cao(String cor, this.corOrelha) : super(cor);
+  
+  void latir(){
+    print("Latir");
+  }
+  
+  @override //sobrepor
+  void correr(){
+    super.correr();
+    print(" cão!");
+  }
+  
+}
+
+class Passaro extends Animal {
+  String corBico;
+  
+  Passaro(String cor, this.corBico) : super(cor);
+  
+  void voar(){
+    print("Voar");
+  }
+  
+  @override //sobrepor
+  void correr(){
+    super.correr();
+    print(" passaro!");
+  }
+  
+}
+
+void main() {
+  
+  Cao cao = Cao("Marrom", "Branco");
+  Passaro passaro = Passaro("Vermelho", "Amarelo");
+  
+  print( "Passaro cor: ${passaro.cor} corBico: ${passaro.corBico} " );
+
+  
+}
+```
+
+### Classe abstrata
+
+Igual ao Java
+
+```dart
+abstract class Animal {
+  
+  String cor;
+  
+  void correr();
+  
+}
+
+class Cao extends Animal {
+  
+  @override
+  void correr(){
+    print("Correr");
+  }
+  
+  void latir(){
+    print("Latir");
+  }
+}
+
+class Passaro extends Animal {
+  @override
+  void correr(){
+    print("Correr");
+  }
+  void voar(){
+    print("Voar");
+  }
+}
+
+void main() {
+  
+  /*
+   * abstrata
+   * concreta
+   * */
+  
+  Cao cao = Cao();
+  cao.latir();
+  cao.correr();
+
+}
+```
+
+### Interface
+
+Pode-se dizer, a grosso modo, que uma 	interface é um contrato que quando assumido por uma classe deve ser implementado
+
+Interface é utilizada pois podemos ter muitos objetos (classes) que podem possuir a mesma ação (métodos), porém, podem executá-las de maneiras diferentes.
+
+A partir de interface obriga-se a uma classe que o implementa a ter certos métodos. 
+
+Em Flutter a interface é uma classe abtrata, sem variável que é chamad apartir de implement (enquanto que a herança de classe abtrata é por extends)
+
+```dart
+abstract class Presidenciavel {
+  void participarEleicao();
+}
+
+abstract class Jornalismo {
+  void escreverArtigoJornal();
+}
+
+abstract class Cidadao {
+  void direitosDeveres(){
+    print("Todo cidadão tem direitos e deveres");
+  }
+}
+
+class Obama extends Cidadao 
+  implements Presidenciavel, Jornalismo  {
+  
+  @override
+  void escreverArtigoJornal(){
+    print("Escrever artigo Jornal");
+  }
+  
+  @override
+  void participarEleicao(){
+    print("Eleição nos Estados Unidos para o Obama");
+  } 
+  
+}
+
+class Jamilton extends Cidadao {
+  
+}
+
+void main() {
+	
+  Obama obama = Obama();
+  obama.direitosDeveres();
+  obama.participarEleicao();
+  
+  Jamilton jamilton = Jamilton();
+  jamilton.direitosDeveres();
+  
+  
+}
+```
+
+### Mixins
+
+usamos `with` para usar um mixin
+
+O mixin é uma forma de vocÊ adicionar um método ou variável a uma classe por apenas chamalo com `with`
+
+Diferente de classe abstrata ou interface, você nâo precisa redefinir e nem fazer um `override`
+
+**Mixin é um techo de código que vocÊ quer executar em determinadas classes**
+
+```
+/* 
+Mixins é uma maneira de utilizar códigos em múltiplas hierarquias de classes
+*/
+
+abstract class Presidenciavel {
+  void participarEleicao();
+}
+
+abstract class Jornalismo {
+  void escreverArtigoJornal();
+}
+
+mixin Escrita {
+  
+  void escreverArtigoJornal(){
+    print("Escrever um artigo para o Jornal");
+  }
+  
+}
+
+abstract class Cidadao {
+  void direitosDeveres(){
+    print("Todo cidadão tem direitos e deveres");
+  }
+}
+
+class Obama extends Cidadao 
+  implements Presidenciavel, Jornalismo  {
+  
+  @override
+  void escreverArtigoJornal(){
+    print("Escrever artigo Jornal");
+  }
+  
+  @override
+  void participarEleicao(){
+    print("Eleição nos Estados Unidos para o Obama");
+  } 
+  
+}
+
+class Jamilton extends Cidadao with Escrita {
+  
+}
+
+void main() {
+	
+  Obama obama = Obama();
+  obama.direitosDeveres();
+  obama.participarEleicao();
+  
+  Jamilton jamilton = Jamilton();
+  jamilton.direitosDeveres();
+  // Perceba que jamilton nâo tem esse método na sua classe, mas ele está com o mixin e por isso pode ser e xecutado
+  jamilton.escreverArtigoJornal();
+  
+  
+}
+```
+
+
+
 ## import
 
 De preferencia, quando o  arquivo `.dart` for classe, ela deve está sozinha e asism vocÊ consegue importar ela
@@ -588,4 +880,23 @@ De preferencia, quando o  arquivo `.dart` for classe, ela deve está sozinha e a
 ```dart
 import '../modelo/carro.dart';
 ```
+
+## Decorators
+
+### `@required`
+
+````dart
+class Questionario extends StatelessWidget {
+  final List<Map<String, Object>> perguntas;
+  final int perguntaSelecionada;
+  final void Function() quantoResponder;
+
+    // parametro nomeados 9podem ser usados em qualquer hora
+  Questionario({
+      // @required: decolrador default do dart que oprbirga que ocomponente receba estes atributos
+    @required this.perguntas,
+    @required this.perguntaSelecionada,
+    @required this.quantoResponder,
+  });
+````
 
