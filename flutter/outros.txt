@@ -1,0 +1,5 @@
+_ significa variável inutil
+
+voce pode por ',' mesmo se nao tiver um item depois
+
+Cliando com o botao direito sobre uma classe StateLEss, podemo converter para StateFull por eses atalhao no VS COde
