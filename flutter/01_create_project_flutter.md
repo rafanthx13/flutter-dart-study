@@ -48,3 +48,19 @@ ficaremos 99% do tempo na pasta `/lib` e 1% em ``pubspec.yaml``
 
 a primeira função a ser executada no flutter é `main.dart` na função main que executa `runApp()` que é passado o `MyApp()` que é um widget.
 
+## Detalhs de Dart/FLutter
+
+**Comentários em Dart/Flutter**
+
+Mesmo que C: // para uma linha e /* e */
+
+**undeline**
+
+Como em pyhon/js podemos usar undliner para pegar uma variável que nâ vamos usar
+
+**Objeto com `,`**
+
+Como em JS, podemo colocar virgula mesmo no ultimo elemento de uma lista que não vai dar erro
+
+
+

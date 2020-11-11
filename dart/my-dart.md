@@ -410,7 +410,25 @@ main() {
 }
 ```
 
+### `fold` vs `reduce`
 
+> https://stackoverflow.com/questions/20491777/dart-fold-vs-reduce
+
+Em flutter existe o método `fold` que faz o mesmo que o `reduce` mas mais genérico. Enquanto que o `reduce` tem que retornar algo do mesmo tipo que o primeiro acumulado e só pode ser aplicado em uma lsita nâo vazio o `fold ` pode ser usado
+
+
+
+[reduce](https://api.dartlang.org/docs/channels/stable/latest/dart_core/Iterable.html#reduce) can only be used on non-empty collections with functions that returns the same type as the types contained in the collection.
+
+[fold](https://api.dartlang.org/docs/channels/stable/latest/dart_core/Iterable.html#fold) can be used in all cases.
+
+For instance you cannot compute the sum of the length of all strings in a list with `reduce`. You have to use `fold` :
+
+```dart
+final list = ['a', 'bb', 'ccc'];
+// compute the sum of all length
+list.fold(0, (t, e) => t + e.length); // result is 6
+```
 
 ### Obs
 
