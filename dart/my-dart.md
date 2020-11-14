@@ -918,3 +918,26 @@ class Questionario extends StatelessWidget {
   });
 ````
 
+## Enum
+
+````dart
+enum Complexity {
+  Simple,
+  Medium,
+  Difficult,
+}
+
+enum Cost {
+  Cheap,
+  Fair,
+  Expensive,
+}
+
+// Criar variavel
+final Complexity complexity;
+  final Cost cost;
+
+// Ela so deverá receber Strings CaseSensitive
+````
+
+## Future : o then except : funçâo assincrona
