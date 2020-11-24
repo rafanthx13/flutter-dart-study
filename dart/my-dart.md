@@ -889,6 +889,67 @@ void main() {
 }
 ```
 
+#### Outro Exemplo
+
+mixin é como um CTRL+C + CTRL+V Avançado que pode inseriri métodos e variáveis para uma classe.
+
+VocÊ pode usar vários mixins mas só se pode ter uma herança em Dart.
+
+````dart
+
+class Carro {
+	int _speed = 0;
+
+	int accel() {
+		_speed += 5;
+		return _speed;
+	}
+
+	int frear(){
+		_spped -= 5;
+	return _speed;
+	}
+}
+
+// Posso exetender uma classe: Herança
+
+class Ferrari extends Carro with Esportivo {
+
+	@override
+	int acelerar() {
+		if(_turboLigado){
+			super.acelerar();
+		}
+	}
+}
+
+class Gol extends Carro {}
+
+// MIXIN
+
+mixin Esportitvo {
+
+	bool_turboligado = false;
+
+	ligarTurbo() {
+		_turboLigado = true;
+	}
+
+	desligarTurbo() {
+		_turboLigado = false;
+	}
+
+}
+
+// MAIN
+
+void main() {
+	Carro c = Gol();
+	print(c.accel()); // $ 5
+
+}
+
+````
 
 
 ## import
